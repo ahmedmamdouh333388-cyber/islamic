@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>موقع Ahmed الديني</title>
+    <!-- ربط ملف التنسيقات CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- مشغل الصوت المخفي -->
+    <audio id="bgAudio" loop preload="auto">
+        <source src="c0fbda874f76456b92d56a14f4e67a0e.mp4" type="audio/mp4">
+    </audio>
+
+    <div class="card">
+        
+        <!-- الشاشة 1: تسجيل الدخول -->
+        <div id="screen-login" class="screen active">
+            <a href="https://wa.me/201225428692?text=مساعدة" class="help-btn" target="_blank">مساعدة</a>
+            <h2>مرحبا بك في موقع Ahmed</h2>
+            <img src="file_0000000074fc81f5928cd4fc3461931e.png" class="profile-img" alt="الصورة الشخصية">
+            <input type="password" id="passInput" placeholder="ادخل كلمه السر للمتابعه">
+            <button class="main-btn" onclick="checkPassword()">دخول</button>
+            <a href="https://wa.me/201225428692?text=السلام%20عليكم%20يا%20احمد%20كلمه%20السر%20لمتابعه%20الصفحه؟🤍" class="forgot-pass" target="_blank">هل نسيت كلمه السر؟</a>
+        </div>
+
+        <!-- الشاشة 2: الصلاة على النبي الأولى -->
+        <div id="screen-salawat" class="screen">
+            <button class="audio-btn" onclick="toggleAudio()">إيقاف/تشغيل الصوت</button>
+            <h2>صلى على سيدنا محمد 🤍</h2>
+            <div class="counter-box" id="salawat-count">10</div>
+            <button class="main-btn" onclick="countSalawat()">اضغط هنا للتسبيح</button>
+            <button id="btn-salawat-next" class="main-btn" style="display:none; margin-top:15px; background-color:#27ae60;" onclick="showScreen('screen-levels')">أكمل من هنا</button>
+        </div>
+
+        <!-- الشاشة 3: اختيار المستويات -->
+        <div id="screen-levels" class="screen">
+            <h2>اختر المستوى</h2>
+            <br>
+            <button id="btn-lvl-easy" class="level-btn easy" onclick="startQuiz('easy')">سهل</button>
+            <button id="btn-lvl-medium" class="level-btn medium" onclick="startQuiz('medium')">متوسط</button>
+            <button id="btn-lvl-hard" class="level-btn hard" onclick="startQuiz('hard')">صعب</button>
+            <button id="btn-levels-next" class="main-btn" style="display:none; background-color:#27ae60;" onclick="showScreen('screen-dhikr1')">كمل</button>
+        </div>
+
+        <!-- الشاشة 4: الأسئلة -->
+        <div id="screen-quiz" class="screen">
+            <div style="display:flex; justify-content:space-between;">
+                <span>الفرص: <span id="lives-display">❤️❤️❤️</span></span>
+                <span>السؤال: <span id="q-num">1</span>/10</span>
+            </div>
+            <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
+            <h3 id="question-text" style="margin:20px 0;"></h3>
+            <div id="options-container"></div>
+            <div id="quiz-feedback" class="feedback"></div>
+        </div>
+
+        <!-- الشاشات 5 إلى 8: الأذكار المتعاقبة -->
+        <div id="screen-dhikr1" class="screen">
+            <div class="dhikr-text">أستغفر الله</div>
+            <div class="counter-box" id="dhikr1-count">10</div>
+            <button class="main-btn" onclick="countDhikr(1)">استغفر</button>
+            <button id="btn-dhikr1-next" class="main-btn" style="display:none; background-color:#27ae60;" onclick="showScreen('screen-dhikr2')">كمل</button>
+        </div>
+
+        <div id="screen-dhikr2" class="screen">
+            <div class="dhikr-text">سبحان الله</div>
+            <div class="counter-box" id="dhikr2-count">10</div>
+            <button class="main-btn" onclick="countDhikr(2)">سبّح</button>
+            <button id="btn-dhikr2-next" class="main-btn" style="display:none; background-color:#27ae60;" onclick="showScreen('screen-dhikr3')">كمل</button>
+        </div>
+
+        <div id="screen-dhikr3" class="screen">
+            <div class="dhikr-text">الحمد لله</div>
+            <div class="counter-box" id="dhikr3-count">10</div>
+            <button class="main-btn" onclick="countDhikr(3)">احمد الله</button>
+            <button id="btn-dhikr3-next" class="main-btn" style="display:none; background-color:#27ae60;" onclick="showScreen('screen-dhikr4')">كمل</button>
+        </div>
+
+        <div id="screen-dhikr4" class="screen">
+            <div class="dhikr-text">الله أكبر</div>
+            <div class="counter-box" id="dhikr4-count">10</div>
+            <button class="main-btn" onclick="countDhikr(4)">كَبّر</button>
+            <button id="btn-dhikr4-next" class="main-btn" style="display:none; background-color:#27ae60;" onclick="showScreen('screen-adhkar-main')">كمل</button>
+        </div>
+
+        <!-- الشاشة 9: أذكار الصباح والمساء -->
+        <div id="screen-adhkar-main" class="screen">
+            <h2>الأذكار</h2>
+            <br>
+            <button class="main-btn" onclick="showAdhkar('morning')">أذكار الصباح</button>
+            <button class="main-btn" style="margin-top:10px;" onclick="showAdhkar('evening')">أذكار المساء</button>
+            <div id="adhkar-box" class="adhkar-content" style="display:none;"></div>
+            <button id="btn-adhkar-finish" class="main-btn" style="display:none; margin-top:15px; background-color:#27ae60;" onclick="showScreen('screen-final-salawat')">التالي</button>
+        </div>
+
+        <!-- الشاشة 10: الصلاة على النبي الأخيرة والتوديع -->
+        <div id="screen-final-salawat" class="screen">
+            <h2>صلِّ على النبي قبل الخروج</h2>
+            <div class="counter-box" id="final-salawat-count">10</div>
+            <button class="main-btn" onclick="countFinalSalawat()">صَلِّ على النبي</button>
+            <div id="exit-text" style="display:none; font-size:22px; color:#27ae60; font-weight:bold; margin-top:20px;">تم الخروج من الموقع 🤍</div>
+        </div>
+
+    </div>
+
+    <!-- ربط ملف البرمجة JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
